@@ -117,7 +117,7 @@ def show():
 
                         const file = document.getElementById('fileinput').files[0];
 
-                        blobService.createBlockBlobFromBrowserFile('dcd', 
+                        blobService.createBlockBlobFromBrowserFile('dcdcont2', 
                                                                     file.name, 
                                                                     file, 
                                                                     (error, result) => {
