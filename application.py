@@ -99,6 +99,35 @@ def show():
                         <img id="sourceImage" width="400" />
                     </div>
                 </div>
+                <button id="create-button">Create Container</button>
+
+                <input type="file" id="fileinput" />
+                <button id="upload-button">Upload</button>
+                <script>
+                    const account = {
+                        name: 'dcdsub2',
+                        sas:  'N3/AfN3kAnVmf1IzyCAdI86qkKpddErZGC2NlLvhPZLJziITGjjtSrrMkMYvglU0GzZ8i4wC96Qqfehv88XuXA=='
+                    };
+
+                    const blobUri = 'https://' + account.name + '.blob.core.windows.net';
+                    const blobService = AzureStorage.Blob.createBlobServiceWithSas(blobUri, account.sas);
+
+                    document.getElementById('upload-button').addEventListener('click', () => {
+
+                        const file = document.getElementById('fileinput').files[0];
+
+                        blobService.createBlockBlobFromBrowserFile('dcd', 
+                                                                    file.name, 
+                                                                    file, 
+                                                                    (error, result) => {
+                                                                        if(error) {
+                                                                            // Handle blob error
+                                                                        } else {
+                                                                            console.log('Upload is successful');
+                                                                        }
+                                                                    });
+
+                        });
                 </body>
                 </html>""" 
 
