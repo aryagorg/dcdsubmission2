@@ -3,7 +3,7 @@ from flask_cors import CORS
 import pyodbc
 
 app = Flask(__name__)
-CORS(app)
+
 
 
 @app.route('/', methods=['GET'])
@@ -109,7 +109,7 @@ def show():
                 <script>
                     const account = {
                         name: 'dcdsub2',
-                        sas:  '?sv=2018-03-28&ss=bfqt&srt=sco&sp=rwdlacup&se=2020-03-03T23:51:07Z&st=2019-08-31T15:51:07Z&spr=https,http&sig=2jjBhLRDHKpyZgQennEQPSOpw4P1k%2F2ssojF80QHBl8%3D'
+                        sas:  '?sv=2018-03-28&ss=bfqt&srt=sco&sp=rwdlacup&se=2020-09-01T03:04:28Z&st=2019-08-31T19:04:28Z&spr=https,http&sig=jqjtaWpiZzumf%2FAB%2BAw44DrsLp%2FU%2BH%2Baw6Clk0eZ%2Bbk%3D'
                         
                     };
 
