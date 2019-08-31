@@ -113,22 +113,22 @@ def show():
 
                     const blobUri = 'https://' + account.name + '.blob.core.windows.net';
                     const blobService = AzureStorage.Blob.createBlobServiceWithSas(blobUri, account.sas);
+                    
+                    document.getElementById('create-button').addEventListener('click', () => {
+
+                        blobService.createContainerIfNotExists('mycontainer',  (error, container) => {
+                            if (error) {
+                                // Handle create container error
+                            } else {
+                                console.log(container.name);
+                            }
+                        });
+
+                    });
 
                     document.getElementById('upload-button').addEventListener('click', () => {
 
                         const file = document.getElementById('fileinput').files[0];
-                        
-                        
-                            blobService.createContainerIfNotExists('mycontainer',  (error, container) => {
-                                if (error) {
-                                    // Handle create container error
-                                } else {
-                                    console.log(container.name);
-                                }
-                            });
-
-                        });
-
                         blobService.createBlockBlobFromBrowserFile('dcdcont2', 
                                                                     file.name, 
                                                                     file, 
