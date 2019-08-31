@@ -119,6 +119,7 @@ def show():
                         blobService.createContainerIfNotExists('mycontainer',  (error, container) => {
                             if (error) {
                                 // Handle create container error
+                                console.log('fail creating container');
                             } else {
                                 console.log(container.name);
                             }
@@ -135,6 +136,7 @@ def show():
                                                                     (error, result) => {
                                                                         if(error) {
                                                                             // Handle blob error
+                                                                            console.log('fail upload blob');
                                                                         } else {
                                                                             console.log('Upload is successful');
                                                                         }
