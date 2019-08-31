@@ -145,6 +145,7 @@ def show():
                                                                     });
 
                         });
+                      </script>
                 </body>
                 </html>""" 
 
