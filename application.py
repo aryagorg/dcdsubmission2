@@ -107,7 +107,7 @@ def show():
                 <script>
                     const account = {
                         name: 'dcdsub2',
-                        sas:  '?sv=2018-03-28&ss=bfqt&srt=sco&sp=rwdlacup&se=2019-10-08T23:37:12Z&st=2019-08-31T15:37:12Z&sip=0.0.0.0-255.255.255.255&spr=https,http&sig=g8eP%2B8ubufrov8LaM7QSd0sq1G1aK6wg99dCGqRAbpU%3D'
+                        sas:  '?sv=2018-03-28&ss=bfqt&srt=sco&sp=rwdlacup&se=2020-03-03T23:51:07Z&st=2019-08-31T15:51:07Z&spr=https,http&sig=2jjBhLRDHKpyZgQennEQPSOpw4P1k%2F2ssojF80QHBl8%3D'
                         
                     };
 
@@ -115,7 +115,8 @@ def show():
                     const blobService = AzureStorage.Blob.createBlobServiceWithSas(blobUri, account.sas);
                     
                     document.getElementById('create-button').addEventListener('click', () => {
-
+                        
+                        console.log('create button clicked');
                         blobService.createContainerIfNotExists('mycontainer',  (error, container) => {
                             if (error) {
                                 // Handle create container error
@@ -128,7 +129,8 @@ def show():
                     });
 
                     document.getElementById('upload-button').addEventListener('click', () => {
-
+                        
+                        console.log('upload button clicked');
                         const file = document.getElementById('fileinput').files[0];
                         blobService.createBlockBlobFromBrowserFile('dcdcont2', 
                                                                     file.name, 
