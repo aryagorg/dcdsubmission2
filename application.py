@@ -9,7 +9,7 @@ def show():
 
     html = """<html>
                 <head>
-                    <title>Analyze Sample</title>
+                    <title>Submission 2</title>
                     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
                     <script src="https://drive.google.com/uc?export=view&id=11lZUoGHAIXvc2R85OlZJ9iynaSQ9HA_z" charset="utf-8"></script>
                 </head>
