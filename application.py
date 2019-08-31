@@ -107,7 +107,8 @@ def show():
                 <script>
                     const account = {
                         name: 'dcdsub2',
-                        sas:  'N3/AfN3kAnVmf1IzyCAdI86qkKpddErZGC2NlLvhPZLJziITGjjtSrrMkMYvglU0GzZ8i4wC96Qqfehv88XuXA=='
+                        sas:  '?sv=2018-03-28&ss=bfqt&srt=sco&sp=rwdlacup&se=2019-10-08T23:37:12Z&st=2019-08-31T15:37:12Z&sip=0.0.0.0-255.255.255.255&spr=https,http&sig=g8eP%2B8ubufrov8LaM7QSd0sq1G1aK6wg99dCGqRAbpU%3D'
+                        
                     };
 
                     const blobUri = 'https://' + account.name + '.blob.core.windows.net';
@@ -116,6 +117,17 @@ def show():
                     document.getElementById('upload-button').addEventListener('click', () => {
 
                         const file = document.getElementById('fileinput').files[0];
+                        
+                        
+                            blobService.createContainerIfNotExists('mycontainer',  (error, container) => {
+                                if (error) {
+                                    // Handle create container error
+                                } else {
+                                    console.log(container.name);
+                                }
+                            });
+
+                        });
 
                         blobService.createBlockBlobFromBrowserFile('dcdcont2', 
                                                                     file.name, 
