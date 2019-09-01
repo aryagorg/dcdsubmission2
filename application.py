@@ -1,16 +1,8 @@
 from flask import Flask,Response,request,render_template,redirect,jsonify  
-from flask_cors import CORS
 import pyodbc
-#import azure.common
-#from azure.storage import CloudStorageAccount
 
 app = Flask(__name__)
 
-STORAGE_ACCOUNT_NAME = 'dcdsub2'
-STORAGE_ACCOUNT_KEY = 'N3/AfN3kAnVmf1IzyCAdI86qkKpddErZGC2NlLvhPZLJziITGjjtSrrMkMYvglU0GzZ8i4wC96Qqfehv88XuXA=='
-# SAS = '?sv=2018-03-28&ss=bfqt&srt=sco&sp=rwdlacup&se=2020-09-01T18:13:18Z&st=2019-09-01T10:13:18Z&sip=0.0.0.0-255.255.255.255&spr=https&sig=kXVjVZeTigyHW7%2FYGW63BGkMDpNQz8MQUI7P43e6Jno%3D'
-
-# account = CloudStorageAccount(STORAGE_ACCOUNT_NAME, STORAGE_ACCOUNT_KEY)
 
 @app.route('/', methods=['GET'])
 def show():
@@ -109,16 +101,14 @@ def show():
                     </div>
                 </div>
                 <button id="create-button">Create Container</button>
-
                 <input type="file" id="fileinput" />
                 <button id="upload-button">Upload</button>
                 <script>
                     const account = {
                         name: 'dcdsub2',
-                        sas:  '?sv=2018-03-28&ss=bfqt&srt=sco&sp=rwdlacup&se=2020-09-01T03:04:28Z&st=2019-08-31T19:04:28Z&spr=https,http&sig=jqjtaWpiZzumf%2FAB%2BAw44DrsLp%2FU%2BH%2Baw6Clk0eZ%2Bbk%3D'
+                        sas:  '?sv=2018-03-28&ss=bfqt&srt=sco&sp=rwdlacup&se=2020-03-03T23:51:07Z&st=2019-08-31T15:51:07Z&spr=https,http&sig=2jjBhLRDHKpyZgQennEQPSOpw4P1k%2F2ssojF80QHBl8%3D'
                         
                     };
-
                     const blobUri = 'https://' + account.name + '.blob.core.windows.net';
                     const blobService = AzureStorage.Blob.createBlobServiceWithSas(blobUri, account.sas);
                     
@@ -133,9 +123,7 @@ def show():
                                 console.log(container.name);
                             }
                         });
-
                     });
-
                     document.getElementById('upload-button').addEventListener('click', () => {
                         
                         console.log('upload button clicked');
@@ -151,21 +139,8 @@ def show():
                                                                             console.log('Upload is successful');
                                                                         }
                                                                     });
-
                         });
                       </script>
-                      <script type=text/javascript>
-                            $(function() {
-                              $('a#test').bind('click', function() {
-                                $.getJSON('/createcont',
-                                    function(data) {
-                                  //do nothing
-                                });
-                                return false;
-                              });
-                            });
-                    </script>
-                      
                 </body>
                 </html>""" 
 
@@ -173,16 +148,18 @@ def show():
 
     return Response(response = html, status = 200, mimetype = "text/html")
 
-# @app.route('/createcont', methods=['POST'])
-# def createcont():
-#     # Create a Block Blob Service object
-#     blockblob_service = account.create_block_blob_service()
-#     #blockblob_service = BlockBlobService(account_name=config.STORAGE_ACCOUNT_NAME, account_key=config.STORAGE_ACCOUNT_KEY)
-#     container_name = 'blockblobbasicscontainer' + \
-#         blob_samples.randomcontainername(6)
+# @app.route('/doform', methods=['POST'])
+# def savedata():
+#     _name = request.form['name']
+#     _email = request.form['email']
+#     _designation = request.form['designation']
+#     _company = request.form['company']
 
-#     # Create a new container
-#     print('1. Create a container with name - ' + container_name)
-#     blockblob_service.create_container(container_name)
+#     sql = "INSERT INTO register(Name, Email, Designation, Company) VALUES('{}', '{}', '{}', '{}')".format(_name, _email, _designation, _company)
+#     connection = pyodbc.connect('Driver={SQL Server};Server=dcdappserver.database.windows.net;Database=dicodingdb;uid=dicoding;pwd=Arya1234')
+#     cursor = connection.cursor()
+#     cursor.execute(sql)
+#     connection.commit()
+#     connection.close()
 
-
+#     return redirect("https://dcdsubmission1.azurewebsites.net/", code=302)
