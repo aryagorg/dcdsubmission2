@@ -1,7 +1,6 @@
 from flask import Flask,Response,request,render_template,redirect,jsonify  
 import pyodbc
-import azure-common
-from azure-storage import CloudStorageAccount
+from azure.storage.blob import BlockBlobService, PublicAccess
 
 app = Flask(__name__)
 
@@ -9,8 +8,11 @@ STORAGE_ACCOUNT_NAME = 'dcdsub2'
 STORAGE_ACCOUNT_KEY = 'N3/AfN3kAnVmf1IzyCAdI86qkKpddErZGC2NlLvhPZLJziITGjjtSrrMkMYvglU0GzZ8i4wC96Qqfehv88XuXA=='
 SAS = '?sv=2018-03-28&ss=bfqt&srt=sco&sp=rwdlacup&se=2020-09-01T18:13:18Z&st=2019-09-01T10:13:18Z&sip=0.0.0.0-255.255.255.255&spr=https&sig=kXVjVZeTigyHW7%2FYGW63BGkMDpNQz8MQUI7P43e6Jno%3D'
 
+block_blob_service = BlockBlobService(account_name=STORAGE_ACCOUNT_NAME, account_key=STORAGE_ACCOUNT_KEY)
 
-account = CloudStorageAccount(STORAGE_ACCOUNT_NAME, STORAGE_ACCOUNT_KEY) 
+# Create a container called 'quickstartblobs'.
+container_name ='quickstartblobs'
+block_blob_service.create_container(container_name)
 
 @app.route('/', methods=['GET'])
 def show():
