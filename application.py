@@ -173,16 +173,16 @@ def show():
 
     return Response(response = html, status = 200, mimetype = "text/html")
 
-@app.route('/createcont', methods=['POST'])
-def createcont():
-    # Create a Block Blob Service object
-    blockblob_service = account.create_block_blob_service()
-    #blockblob_service = BlockBlobService(account_name=config.STORAGE_ACCOUNT_NAME, account_key=config.STORAGE_ACCOUNT_KEY)
-    container_name = 'blockblobbasicscontainer' + \
-        blob_samples.randomcontainername(6)
+# @app.route('/createcont', methods=['POST'])
+# def createcont():
+#     # Create a Block Blob Service object
+#     blockblob_service = account.create_block_blob_service()
+#     #blockblob_service = BlockBlobService(account_name=config.STORAGE_ACCOUNT_NAME, account_key=config.STORAGE_ACCOUNT_KEY)
+#     container_name = 'blockblobbasicscontainer' + \
+#         blob_samples.randomcontainername(6)
 
-    # Create a new container
-    print('1. Create a container with name - ' + container_name)
-    blockblob_service.create_container(container_name)
+#     # Create a new container
+#     print('1. Create a container with name - ' + container_name)
+#     blockblob_service.create_container(container_name)
 
 
