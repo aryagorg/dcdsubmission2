@@ -10,51 +10,53 @@ SAS = '?sv=2018-03-28&ss=bfqt&srt=sco&sp=rwdlacup&se=2020-09-01T18:13:18Z&st=201
 
 block_blob_service = BlockBlobService(account_name=STORAGE_ACCOUNT_NAME, account_key=STORAGE_ACCOUNT_KEY)
 
-@app.route('/', methods=['GET'])
+@app.route('/', methods=['GET', 'POST'])
+
 def show():
 
     html = """<html>
                 <head>
-                    <title>Submission 2</title>
+                    <title>Analyze Sample</title>
                     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
                     <script src="https://drive.google.com/uc?export=view&id=11lZUoGHAIXvc2R85OlZJ9iynaSQ9HA_z" charset="utf-8"></script>
                 </head>
                 <body>
-                
-                <h1>Analyze image:</h1>
-                Enter the URL to an image, then click the <strong>Analyze image</strong> button.
-                <br><br>
-                Image to analyze:
-                <input type="text" name="inputImage" id="inputImage"
-                    value="https://upload.wikimedia.org/wikipedia/commons/3/3c/Shaki_waterfall.jpg" />
-                <button onclick="processImage()">Analyze image</button>
-                <br><br>
-                <div id="wrapper" style="width:1020px; display:table;">
-                    <div id="jsonOutput" style="width:600px; display:table-cell;">
-                        Response:
+                        <h1>Upload image:</h1>
+
                         <br><br>
-                        <textarea id="responseTextArea" class="UIInput"
-                                style="width:580px; height:400px;"></textarea>
-                    </div>
-                    <div id="imageDiv" style="width:420px; display:table-cell;">
-                        Source image:
+                        Input file :
+                        <input type="file" id="fileinput" />
+                        <button id="upload-button">Upload</button>
+                        <br>
+                        <br>
+
+                        <button onclick="processImage()">Analyze image</button>
                         <br><br>
-                        <img id="sourceImage" width="400" />
-                    </div>
-                </div>
-                <button id="create-button">Create Container</button>
-                <input type="file" id="fileinput" />
-                <input type="file" accept="image/*" onchange="loadFile(event)">
-                <button id="upload-button">Upload</button>
+                        <div id="wrapper" style="width:1020px; display:table;"> 
+                            <div id="imageDiv" style="width:420px; display:table-cell;">
+                                Source image:
+                                <br><br>
+                                <img id="sourceImage" width="400" />
+                            </div>
+
+                            <div id="jsonOutput" style="width:600px; display:table-cell;">
+                                    Description analyzed (if api doesnt return desc ,it show nothing, choose other pic):
+                                    <br><br>
+                                    <textarea id="responseTextArea" class="UIInput"
+                                              style="width:580px; height:20px;"></textarea>
+                            </div>
+                        </div>
+
+
                 <script type="text/javascript">
                     function processImage() {
                         // **********************************************
                         // *** Update or verify the following values. ***
                         // **********************************************
-                
+
                         // Replace <Subscription Key> with your valid subscription key.
                         var subscriptionKey = "777441aab2e544bf94f6eb80adf9f4a7";
-                
+
                         // You must use the same Azure region in your REST API method as you used to
                         // get your subscription keys. For example, if you got your subscription keys
                         // from the West US region, replace "westcentralus" in the URL
@@ -65,40 +67,44 @@ def show():
                         // this region.
                         var uriBase =
                             "https://southeastasia.api.cognitive.microsoft.com/vision/v2.0/analyze";
-                
+
                         // Request parameters.
                         var params = {
                             "visualFeatures": "Categories,Description,Color",
                             "details": "",
                             "language": "en",
                         };
-                
+
                         // Display the image.
-                        var sourceImageUrl = document.getElementById("inputImage").value;
+                        //var sourceImageUrl =  document.getElementById("inputImage").value;
+                        var path = document.getElementById('fileinput').value
+                        var filename = path.replace(/^.*\\/, "");
+                        var sourceImageUrl = "https://dcdsub2.blob.core.windows.net/dcd2cont/" + filename;
                         document.querySelector("#sourceImage").src = sourceImageUrl;
-                
+
                         // Make the REST API call.
                         $.ajax({
                             url: uriBase + "?" + $.param(params),
-                
+
                             // Request headers.
                             beforeSend: function(xhrObj){
                                 xhrObj.setRequestHeader("Content-Type","application/json");
                                 xhrObj.setRequestHeader(
                                     "Ocp-Apim-Subscription-Key", subscriptionKey);
                             },
-                
+
                             type: "POST",
-                
+
                             // Request body.
                             data: '{"url": ' + '"' + sourceImageUrl + '"}',
                         })
-                
+
                         .done(function(data) {
                             // Show formatted JSON on webpage.
-                            $("#responseTextArea").val(JSON.stringify(data, null, 2));
+                            $("#responseTextArea").val(JSON.stringify(data.description.captions[0].text, null, 2));
+                            //alert(data.description.captions[0].text);
                         })
-                
+
                         .fail(function(jqXHR, textStatus, errorThrown) {
                             // Display error message.
                             var errorString = (errorThrown === "") ? "Error. " :
@@ -109,61 +115,40 @@ def show():
                         });
                     };
                 </script>
-                <script>
-                    const account = {
-                        name: 'dcdsub2',
-                        key:  'N3/AfN3kAnVmf1IzyCAdI86qkKpddErZGC2NlLvhPZLJziITGjjtSrrMkMYvglU0GzZ8i4wC96Qqfehv88XuXA=='
-                        
-                    };
-                    const blobUri = 'https://' + account.name + '.blob.core.windows.net';
-                    const blobService = AzureStorage.Blob.createBlobService(blobUri, account.sas);
-                    
-                    document.getElementById('create-button').addEventListener('click', () => {
-                        
-                        console.log('create button clicked');
-                        blobService.createContainerIfNotExists('mycontainer',  (error, container) => {
-                            if (error) {
-                                // Handle create container error
-                                console.log('fail creating container');
-                            } else {
-                                console.log(container.name);
-                            }
-                        });
-                    });
-                    document.getElementById('upload-button').addEventListener('click', () => {
-                        
-                        console.log('upload button clicked');
-                        const file = document.getElementById('fileinput').files[0];
-                        blobService.createBlockBlobFromBrowserFile('dcdcont2', 
-                                                                    file.name, 
-                                                                    file, 
-                                                                    (error, result) => {
-                                                                        if(error) {
-                                                                            // Handle blob error
-                                                                            console.log('fail upload blob');
-                                                                        } else {
-                                                                            console.log('Upload is successful');
-                                                                        }
-                                                                    });
-                        });
-                      </script>
-                      
-                    //button
-                    <div class='container'>
-                        <h3>Test</h3>
-                            <form action="createcont" method="POST">
-                                 <input type="submit" value="Submit">
-                            </form>
 
-                    </div>
-                    <input type="file" accept="image/*" onchange="loadFile(event)">
-                    <img id="output"/>
-                    <script>
-                      var loadFile = function(event) {
-                        var output = document.getElementById('output');
-                        output.src = URL.createObjectURL(event.target.files[0]);
-                      };
-                    </script>
+
+
+
+
+
+                <script>
+                                const account = {
+                                        name: 'dcdsub2',
+                                        sas:  '?sv=2018-03-28&ss=bfqt&srt=sco&sp=rwdlacup&se=2019-09-01T21:39:32Z&st=2019-09-01T13:39:32Z&spr=https,http&sig=0n2rLc4RYhIfyLxMo9qZnzSAEUE5kwG1jtcdFzXrr%2Bw%3D'
+
+                                    };
+                                    const blobUri = 'https://' + account.name + '.blob.core.windows.net';
+                                    const blobService = AzureStorage.Blob.createBlobServiceWithSas(blobUri, account.sas);
+
+                                    document.getElementById('upload-button').addEventListener('click', () => {
+
+                                        console.log('upload button clicked');
+                                        const file = document.getElementById('fileinput').files[0];
+                                        blobService.createBlockBlobFromBrowserFile('dcd2cont', 
+                                                                                    file.name, 
+                                                                                    file, 
+                                                                                    (error, result) => {
+                                                                                        if(error) {
+                                                                                            // Handle blob error
+                                                                                            alert("fail upload!");
+                                                                                        } else {
+                                                                                            alert("upload success!");
+                                                                                        }
+                                                                                    });
+                                        });
+
+
+                </script>
                 </body>
                 </html>""" 
 
@@ -171,10 +156,4 @@ def show():
 
     return Response(response = html, status = 200, mimetype = "text/html")
 
-@app.route('/createcont', methods=['POST'])
-def createcont():
-    
-    container_name ='testcont'
-    block_blob_service.create_container(container_name)
 
-    return redirect("https://dcdsub2.azurewebsites.net/", code=302)
