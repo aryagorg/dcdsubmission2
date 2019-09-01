@@ -150,8 +150,8 @@ def show():
                     //button
                     <div class='container'>
                         <h3>Test</h3>
-                            <form>
-                                <a href=# id=test><button class='btn btn-default'>Test</button></a>
+                            <form action="createcont" method="POST">
+                                 <input type="submit" value="Submit">
                             </form>
 
                     </div>
