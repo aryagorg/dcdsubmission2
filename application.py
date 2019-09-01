@@ -44,6 +44,7 @@ def show():
                 </div>
                 <button id="create-button">Create Container</button>
                 <input type="file" id="fileinput" />
+                <input type="file" accept="image/*" onchange="loadFile(event)">
                 <button id="upload-button">Upload</button>
                 <script type="text/javascript">
                     function processImage() {
@@ -111,11 +112,11 @@ def show():
                 <script>
                     const account = {
                         name: 'dcdsub2',
-                        sas:  '?sv=2018-03-28&ss=bfqt&srt=sco&sp=rwdlacup&se=2020-03-03T23:51:07Z&st=2019-08-31T15:51:07Z&spr=https,http&sig=2jjBhLRDHKpyZgQennEQPSOpw4P1k%2F2ssojF80QHBl8%3D'
+                        key:  'N3/AfN3kAnVmf1IzyCAdI86qkKpddErZGC2NlLvhPZLJziITGjjtSrrMkMYvglU0GzZ8i4wC96Qqfehv88XuXA=='
                         
                     };
                     const blobUri = 'https://' + account.name + '.blob.core.windows.net';
-                    const blobService = AzureStorage.Blob.createBlobServiceWithSas(blobUri, account.sas);
+                    const blobService = AzureStorage.Blob.createBlobService(blobUri, account.sas);
                     
                     document.getElementById('create-button').addEventListener('click', () => {
                         
@@ -155,19 +156,14 @@ def show():
                             </form>
 
                     </div>
-                       <script type=text/javascript>
-                                $(function() {
-                                  $('a#test').bind('click', function() {
-                                    $.getJSON('/createcont',
-                                        function(data) {
-                                      //do nothing
-                                    });
-                                    return false;
-                                  });
-                                });
-                       </script>
-
-
+                    <input type="file" accept="image/*" onchange="loadFile(event)">
+                    <img id="output"/>
+                    <script>
+                      var loadFile = function(event) {
+                        var output = document.getElementById('output');
+                        output.src = URL.createObjectURL(event.target.files[0]);
+                      };
+                    </script>
                 </body>
                 </html>""" 
 
