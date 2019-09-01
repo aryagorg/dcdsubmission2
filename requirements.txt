@@ -1,4 +1,4 @@
 Flask
 pyodbc
-azure-storage-blob
+azure-storage
 azure-common
