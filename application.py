@@ -24,7 +24,7 @@ def show():
 
                 <body>
                     <script type="text/javascript">
-                        function processImage() {
+                        function processimage() {
                             // **********************************************
                             // *** Update or verify the following values. ***
                             // **********************************************
@@ -99,7 +99,7 @@ def show():
                     <br>
                     <br>
 
-                    <button onclick="processImage">Analyze image</button>
+                    <button onclick="processimage()">Analyze image</button>
                     <br><br>
                     <div id="wrapper" style="width:1020px; display:table;">
                         <div id="imageDiv" style="width:420px; display:table-cell;">
