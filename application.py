@@ -10,10 +10,6 @@ SAS = '?sv=2018-03-28&ss=bfqt&srt=sco&sp=rwdlacup&se=2020-09-01T18:13:18Z&st=201
 
 block_blob_service = BlockBlobService(account_name=STORAGE_ACCOUNT_NAME, account_key=STORAGE_ACCOUNT_KEY)
 
-# Create a container called 'quickstartblobs'.
-container_name ='quickstartblobs'
-block_blob_service.create_container(container_name)
-
 @app.route('/', methods=['GET'])
 def show():
 
@@ -25,6 +21,30 @@ def show():
                 </head>
                 <body>
                 
+                <h1>Analyze image:</h1>
+                Enter the URL to an image, then click the <strong>Analyze image</strong> button.
+                <br><br>
+                Image to analyze:
+                <input type="text" name="inputImage" id="inputImage"
+                    value="https://upload.wikimedia.org/wikipedia/commons/3/3c/Shaki_waterfall.jpg" />
+                <button onclick="processImage()">Analyze image</button>
+                <br><br>
+                <div id="wrapper" style="width:1020px; display:table;">
+                    <div id="jsonOutput" style="width:600px; display:table-cell;">
+                        Response:
+                        <br><br>
+                        <textarea id="responseTextArea" class="UIInput"
+                                style="width:580px; height:400px;"></textarea>
+                    </div>
+                    <div id="imageDiv" style="width:420px; display:table-cell;">
+                        Source image:
+                        <br><br>
+                        <img id="sourceImage" width="400" />
+                    </div>
+                </div>
+                <button id="create-button">Create Container</button>
+                <input type="file" id="fileinput" />
+                <button id="upload-button">Upload</button>
                 <script type="text/javascript">
                     function processImage() {
                         // **********************************************
@@ -88,31 +108,6 @@ def show():
                         });
                     };
                 </script>
-                
-                <h1>Analyze image:</h1>
-                Enter the URL to an image, then click the <strong>Analyze image</strong> button.
-                <br><br>
-                Image to analyze:
-                <input type="text" name="inputImage" id="inputImage"
-                    value="https://upload.wikimedia.org/wikipedia/commons/3/3c/Shaki_waterfall.jpg" />
-                <button onclick="processImage()">Analyze image</button>
-                <br><br>
-                <div id="wrapper" style="width:1020px; display:table;">
-                    <div id="jsonOutput" style="width:600px; display:table-cell;">
-                        Response:
-                        <br><br>
-                        <textarea id="responseTextArea" class="UIInput"
-                                style="width:580px; height:400px;"></textarea>
-                    </div>
-                    <div id="imageDiv" style="width:420px; display:table-cell;">
-                        Source image:
-                        <br><br>
-                        <img id="sourceImage" width="400" />
-                    </div>
-                </div>
-                <button id="create-button">Create Container</button>
-                <input type="file" id="fileinput" />
-                <button id="upload-button">Upload</button>
                 <script>
                     const account = {
                         name: 'dcdsub2',
@@ -152,10 +147,18 @@ def show():
                         });
                       </script>
                       
-                        <script type=text/javascript>
+                    //button
+                    <div class='container'>
+                        <h3>Test</h3>
+                            <form>
+                                <a href=# id=test><button class='btn btn-default'>Test</button></a>
+                            </form>
+
+                    </div>
+                       <script type=text/javascript>
                                 $(function() {
                                   $('a#test').bind('click', function() {
-                                    $.getJSON('/background_process_test',
+                                    $.getJSON('/createcont',
                                         function(data) {
                                       //do nothing
                                     });
@@ -165,14 +168,6 @@ def show():
                        </script>
 
 
-                    //button
-                    <div class='container'>
-                        <h3>Test</h3>
-                            <form>
-                                <a href=# id=test><button class='btn btn-default'>Test</button></a>
-                            </form>
-
-                    </div>
                 </body>
                 </html>""" 
 
@@ -180,18 +175,10 @@ def show():
 
     return Response(response = html, status = 200, mimetype = "text/html")
 
-# @app.route('/doform', methods=['POST'])
-# def savedata():
-#     _name = request.form['name']
-#     _email = request.form['email']
-#     _designation = request.form['designation']
-#     _company = request.form['company']
+@app.route('/createcont', methods=['POST'])
+def createcont():
+    
+    container_name ='testcont'
+    block_blob_service.create_container(container_name)
 
-#     sql = "INSERT INTO register(Name, Email, Designation, Company) VALUES('{}', '{}', '{}', '{}')".format(_name, _email, _designation, _company)
-#     connection = pyodbc.connect('Driver={SQL Server};Server=dcdappserver.database.windows.net;Database=dicodingdb;uid=dicoding;pwd=Arya1234')
-#     cursor = connection.cursor()
-#     cursor.execute(sql)
-#     connection.commit()
-#     connection.close()
-
-#     return redirect("https://dcdsubmission1.azurewebsites.net/", code=302)
+    return redirect("https://dcdsub2.azurewebsites.net/", code=302)
