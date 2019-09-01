@@ -23,32 +23,6 @@ def show():
                 </head>
 
                 <body>
-                    <h1>Upload image:</h1>
-
-                    <br><br>
-                    Input file :
-                    <input type="file" id="fileinput" />
-                    <button id="upload-button">Upload</button>
-                    <br>
-                    <br>
-
-                    <button onclick="processImage()">Analyze image</button>
-                    <br><br>
-                    <div id="wrapper" style="width:1020px; display:table;">
-                        <div id="imageDiv" style="width:420px; display:table-cell;">
-                            Source image:
-                            <br><br>
-                            <img id="sourceImage" width="400" />
-                        </div>
-
-                        <div id="jsonOutput" style="width:600px; display:table-cell;">
-                            Description analyzed (if api doesnt return desc ,it show nothing, choose other pic):
-                            <br><br>
-                            <textarea id="responseTextArea" class="UIInput" style="width:580px; height:20px;"></textarea>
-                        </div>
-                    </div>
-
-
                     <script type="text/javascript">
                         function processImage() {
                             // **********************************************
@@ -116,6 +90,33 @@ def show():
                                 });
                         };
                     </script>
+                    <h1>Upload image:</h1>
+
+                    <br><br>
+                    Input file :
+                    <input type="file" id="fileinput" />
+                    <button id="upload-button">Upload</button>
+                    <br>
+                    <br>
+
+                    <button onclick="processImage()">Analyze image</button>
+                    <br><br>
+                    <div id="wrapper" style="width:1020px; display:table;">
+                        <div id="imageDiv" style="width:420px; display:table-cell;">
+                            Source image:
+                            <br><br>
+                            <img id="sourceImage" width="400" />
+                        </div>
+
+                        <div id="jsonOutput" style="width:600px; display:table-cell;">
+                            Description analyzed (if api doesnt return desc ,it show nothing, choose other pic):
+                            <br><br>
+                            <textarea id="responseTextArea" class="UIInput" style="width:580px; height:20px;"></textarea>
+                        </div>
+                    </div>
+
+
+                    
                     <script>
                         const account = {
                             name: 'dcdsub2',
