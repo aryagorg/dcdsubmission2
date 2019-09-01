@@ -53,7 +53,7 @@ def show():
                             // Display the image.
                             //var sourceImageUrl =  document.getElementById("inputImage").value;
                             var path = document.getElementById('fileinput').value
-                            var filename = path.replace(/^.*\\/, "");
+                            //var filename = path.replace(/^.*\\/, "");
                             var sourceImageUrl = "https://dcdsub2.blob.core.windows.net/dcd2cont/" + path;
                             document.querySelector("#sourceImage").src = sourceImageUrl;
 
