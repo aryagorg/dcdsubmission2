@@ -1,7 +1,7 @@
 from flask import Flask,Response,request,render_template,redirect,jsonify  
 import pyodbc
-import azure-common
-from azure-storage import CloudStorageAccount
+# import azure-common
+# from azure-storage import CloudStorageAccount
 
 app = Flask(__name__)
 
@@ -9,7 +9,7 @@ STORAGE_ACCOUNT_NAME = 'dcdsub2'
 STORAGE_ACCOUNT_KEY = 'N3/AfN3kAnVmf1IzyCAdI86qkKpddErZGC2NlLvhPZLJziITGjjtSrrMkMYvglU0GzZ8i4wC96Qqfehv88XuXA=='
 SAS = '?sv=2018-03-28&ss=bfqt&srt=sco&sp=rwdlacup&se=2020-09-01T18:13:18Z&st=2019-09-01T10:13:18Z&sip=0.0.0.0-255.255.255.255&spr=https&sig=kXVjVZeTigyHW7%2FYGW63BGkMDpNQz8MQUI7P43e6Jno%3D'
 
-account = CloudStorageAccount(account_name, account_key)
+# account = CloudStorageAccount(account_name, account_key)
 
 @app.route('/', methods=['GET'])
 def show():
@@ -148,7 +148,7 @@ def show():
                                                                     });
                         });
                       </script>
-                      <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+                      
                         <script type=text/javascript>
                                 $(function() {
                                   $('a#test').bind('click', function() {
