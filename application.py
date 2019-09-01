@@ -23,7 +23,7 @@ def show():
                 </head>
 
                 <body>
-                    <script type="text/javascript">
+                    <script type="text/javascript" charset="utf-8>
                         function processimage() {
                             // **********************************************
                             // *** Update or verify the following values. ***
