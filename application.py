@@ -1,7 +1,7 @@
 from flask import Flask,Response,request,render_template,redirect,jsonify  
 import pyodbc
-# import azure-common
-# from azure-storage import CloudStorageAccount
+import azure-common
+from azure-storage import CloudStorageAccount
 
 app = Flask(__name__)
 
