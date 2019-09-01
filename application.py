@@ -4,7 +4,13 @@ import pyodbc
 
 app = Flask(__name__)
 
+STORAGE_ACCOUNT_NAME = 'dcdsub2'
+STORAGE_ACCOUNT_KEY = 'N3/AfN3kAnVmf1IzyCAdI86qkKpddErZGC2NlLvhPZLJziITGjjtSrrMkMYvglU0GzZ8i4wC96Qqfehv88XuXA=='
+SAS = '?sv=2018-03-28&ss=bfqt&srt=sco&sp=rwdlacup&se=2020-09-01T18:13:18Z&st=2019-09-01T10:13:18Z&sip=0.0.0.0-255.255.255.255&spr=https&sig=kXVjVZeTigyHW7%2FYGW63BGkMDpNQz8MQUI7P43e6Jno%3D'
 
+account_name = config.STORAGE_ACCOUNT_NAME
+account_key = config.STORAGE_ACCOUNT_KEY
+account = CloudStorageAccount(account_name, account_key)
 
 @app.route('/', methods=['GET'])
 def show():
@@ -148,6 +154,18 @@ def show():
 
                         });
                       </script>
+                      <script type=text/javascript>
+                            $(function() {
+                              $('a#test').bind('click', function() {
+                                $.getJSON('/createcont',
+                                    function(data) {
+                                  //do nothing
+                                });
+                                return false;
+                              });
+                            });
+                    </script>
+                      
                 </body>
                 </html>""" 
 
@@ -155,20 +173,16 @@ def show():
 
     return Response(response = html, status = 200, mimetype = "text/html")
 
-# @app.route('/doform', methods=['POST'])
-# def savedata():
-#     _name = request.form['name']
-#     _email = request.form['email']
-#     _designation = request.form['designation']
-#     _company = request.form['company']
+@app.route('/createcont', methods=['POST'])
+def createcont():
+    # Create a Block Blob Service object
+    blockblob_service = account.create_block_blob_service()
+    #blockblob_service = BlockBlobService(account_name=config.STORAGE_ACCOUNT_NAME, account_key=config.STORAGE_ACCOUNT_KEY)
+    container_name = 'blockblobbasicscontainer' + \
+        blob_samples.randomcontainername(6)
 
-#     sql = "INSERT INTO register(Name, Email, Designation, Company) VALUES('{}', '{}', '{}', '{}')".format(_name, _email, _designation, _company)
-#     connection = pyodbc.connect('Driver={SQL Server};Server=dcdappserver.database.windows.net;Database=dicodingdb;uid=dicoding;pwd=Arya1234')
-#     cursor = connection.cursor()
-#     cursor.execute(sql)
-#     connection.commit()
-#     connection.close()
-
-#     return redirect("https://dcdsubmission1.azurewebsites.net/", code=302)
+    # Create a new container
+    print('1. Create a container with name - ' + container_name)
+    blockblob_service.create_container(container_name)
 
 
