@@ -15,37 +15,38 @@ block_blob_service = BlockBlobService(account_name=STORAGE_ACCOUNT_NAME, account
 def show():
 
     html = """<html>
-                    <head>
-                        <title>Analyze Sample</title>
-                        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-                        <script src="https://drive.google.com/uc?export=view&id=11lZUoGHAIXvc2R85OlZJ9iynaSQ9HA_z" charset="utf-8"></script>
-                    </head>
-                    <body>
-                            <h1>Upload image:</h1>
 
+                <head>
+                    <title>Analyze Sample</title>
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+                    <script src="https://drive.google.com/uc?export=view&id=11lZUoGHAIXvc2R85OlZJ9iynaSQ9HA_z" charset="utf-8"></script>
+                </head>
+
+                <body>
+                    <h1>Upload image:</h1>
+
+                    <br><br>
+                    Input file :
+                    <input type="file" id="fileinput" />
+                    <button id="upload-button">Upload</button>
+                    <br>
+                    <br>
+
+                    <button onclick="processImage()">Analyze image</button>
+                    <br><br>
+                    <div id="wrapper" style="width:1020px; display:table;">
+                        <div id="imageDiv" style="width:420px; display:table-cell;">
+                            Source image:
                             <br><br>
-                            Input file :
-                            <input type="file" id="fileinput" />
-                            <button id="upload-button">Upload</button>
-                            <br>
-                            <br>
+                            <img id="sourceImage" width="400" />
+                        </div>
 
-                            <button onclick="processImage()">Analyze image</button>
+                        <div id="jsonOutput" style="width:600px; display:table-cell;">
+                            Description analyzed (if api doesnt return desc ,it show nothing, choose other pic):
                             <br><br>
-                            <div id="wrapper" style="width:1020px; display:table;"> 
-                                <div id="imageDiv" style="width:420px; display:table-cell;">
-                                    Source image:
-                                    <br><br>
-                                    <img id="sourceImage" width="400" />
-                                </div>
-
-                                <div id="jsonOutput" style="width:600px; display:table-cell;">
-                                        Description analyzed (if api doesnt return desc ,it show nothing, choose other pic):
-                                        <br><br>
-                                        <textarea id="responseTextArea" class="UIInput"
-                                                  style="width:580px; height:20px;"></textarea>
-                                </div>
-                            </div>
+                            <textarea id="responseTextArea" class="UIInput" style="width:580px; height:20px;"></textarea>
+                        </div>
+                    </div>
 
 
                     <script type="text/javascript">
@@ -87,8 +88,8 @@ def show():
                                 url: uriBase + "?" + $.param(params),
 
                                 // Request headers.
-                                beforeSend: function(xhrObj){
-                                    xhrObj.setRequestHeader("Content-Type","application/json");
+                                beforeSend: function (xhrObj) {
+                                    xhrObj.setRequestHeader("Content-Type", "application/json");
                                     xhrObj.setRequestHeader(
                                         "Ocp-Apim-Subscription-Key", subscriptionKey);
                                 },
@@ -99,53 +100,54 @@ def show():
                                 data: '{"url": ' + '"' + sourceImageUrl + '"}',
                             })
 
-                            .done(function(data) {
-                                // Show formatted JSON on webpage.
-                                $("#responseTextArea").val(JSON.stringify(data.description.captions[0].text, null, 2));
-                                //alert(data.description.captions[0].text);
-                            })
+                                .done(function (data) {
+                                    // Show formatted JSON on webpage.
+                                    $("#responseTextArea").val(JSON.stringify(data.description.captions[0].text, null, 2));
+                                    //alert(data.description.captions[0].text);
+                                })
 
-                            .fail(function(jqXHR, textStatus, errorThrown) {
-                                // Display error message.
-                                var errorString = (errorThrown === "") ? "Error. " :
-                                    errorThrown + " (" + jqXHR.status + "): ";
-                                errorString += (jqXHR.responseText === "") ? "" :
-                                    jQuery.parseJSON(jqXHR.responseText).message;
-                                alert(errorString);
-                            });
+                                .fail(function (jqXHR, textStatus, errorThrown) {
+                                    // Display error message.
+                                    var errorString = (errorThrown === "") ? "Error. " :
+                                        errorThrown + " (" + jqXHR.status + "): ";
+                                    errorString += (jqXHR.responseText === "") ? "" :
+                                        jQuery.parseJSON(jqXHR.responseText).message;
+                                    alert(errorString);
+                                });
                         };
                     </script>
-
                     <script>
-                                    const account = {
-                                            name: 'dcdsub2',
-                                            sas:  '?sv=2018-03-28&ss=bfqt&srt=sco&sp=rwdlacup&se=2019-09-01T21:39:32Z&st=2019-09-01T13:39:32Z&spr=https,http&sig=0n2rLc4RYhIfyLxMo9qZnzSAEUE5kwG1jtcdFzXrr%2Bw%3D'
+                        const account = {
+                            name: 'dcdsub2',
+                            sas: '?sv=2018-03-28&ss=bfqt&srt=sco&sp=rwdlacup&se=2019-09-01T21:39:32Z&st=2019-09-01T13:39:32Z&spr=https,http&sig=0n2rLc4RYhIfyLxMo9qZnzSAEUE5kwG1jtcdFzXrr%2Bw%3D'
 
-                                        };
-                                        const blobUri = 'https://' + account.name + '.blob.core.windows.net';
-                                        const blobService = AzureStorage.Blob.createBlobServiceWithSas(blobUri, account.sas);
+                        };
+                        const blobUri = 'https://' + account.name + '.blob.core.windows.net';
+                        const blobService = AzureStorage.Blob.createBlobServiceWithSas(blobUri, account.sas);
 
-                                        document.getElementById('upload-button').addEventListener('click', () => {
+                        document.getElementById('upload-button').addEventListener('click', () => {
 
-                                            console.log('upload button clicked');
-                                            const file = document.getElementById('fileinput').files[0];
-                                            blobService.createBlockBlobFromBrowserFile('dcd2cont', 
-                                                                                        file.name, 
-                                                                                        file, 
-                                                                                        (error, result) => {
-                                                                                            if(error) {
-                                                                                                // Handle blob error
-                                                                                                alert("fail upload!");
-                                                                                            } else {
-                                                                                                alert("upload success!");
-                                                                                            }
-                                                                                        });
-                                            });
+                            console.log('upload button clicked');
+                            const file = document.getElementById('fileinput').files[0];
+                            blobService.createBlockBlobFromBrowserFile('dcd2cont',
+                                file.name,
+                                file,
+                                (error, result) => {
+                                    if (error) {
+                                        // Handle blob error
+                                        alert("fail upload!");
+                                    } else {
+                                        alert("upload success!");
+                                    }
+                                });
+                        });
 
 
                     </script>
-                    </body>
-                    </html>""" 
+                </body>
+
+                </html>""" 
+  
     
 
     return Response(response = html, status = 200, mimetype = "text/html")
