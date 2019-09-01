@@ -99,7 +99,7 @@ def show():
                     <br>
                     <br>
 
-                    <button onclick="processImage()">Analyze image</button>
+                    <button onclick="processImage">Analyze image</button>
                     <br><br>
                     <div id="wrapper" style="width:1020px; display:table;">
                         <div id="imageDiv" style="width:420px; display:table-cell;">
