@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 STORAGE_ACCOUNT_NAME = 'dcdsub2'
 STORAGE_ACCOUNT_KEY = 'N3/AfN3kAnVmf1IzyCAdI86qkKpddErZGC2NlLvhPZLJziITGjjtSrrMkMYvglU0GzZ8i4wC96Qqfehv88XuXA=='
-SAS = '?sv=2018-03-28&ss=bfqt&srt=sco&sp=rwdlacup&se=2019-09-02T15:36:52Z&st=2019-09-02T07:36:52Z&sip=0.0.0.0-255.255.255.255&spr=https,http&sig=35ATurz17AnGj1TVomY2I4BJOCJHlvcFsxK%2BUN8lbgA%3D'
+SAS = '?sv=2018-03-28&ss=bfqt&srt=sco&sp=rwdlacup&se=2019-09-02T15:45:07Z&st=2019-09-02T07:45:07Z&spr=https,http&sig=Ts4uou7v5ihElpRa%2BEtTBomRDlLqcBIpd895yVGXLeU%3D'
 
 block_blob_service = BlockBlobService(account_name=STORAGE_ACCOUNT_NAME, account_key=STORAGE_ACCOUNT_KEY)
 
